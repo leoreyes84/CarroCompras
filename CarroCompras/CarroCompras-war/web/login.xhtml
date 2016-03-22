@@ -15,15 +15,19 @@
             </ui:define>
             <ui:define name="body">
                 <h:form id="login">
-                    <p:panel id="basic" header="Iniciar Sesión" style="margin-bottom:20px">
+                    <p:growl id="growl" showDetail="false" sticky="true" life="500"/>
+                    <p:panel id="basic" header="#{msg['login.label.inicio.sesion']}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText value="Usuario: " />
-                            <p:inputText  id="usuario" required="true" label="Usuario" maxlength="50"/>
-                            <h:outputText value="Contraseña: " />
-                            <p:inputText  id="ciclo" required="true" label="Contraseña" maxlength="50"/>
+                            <h:outputText value="#{msg['login.label.usuario']}" />
+                            <p:inputText  id="usuario" required="false" label="#{msg['login.label.usuario']}" maxlength="50"/>
+                            <h:outputText value="#{msg['login.label.contrasenia']}" />
+                            <p:inputText  id="ciclo" required="false" label="#{msg['login.label.contrasenia']}" maxlength="50"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" style="">
+                            <p:commandButton action="buscarProductos" value="#{msg['login.button.ingresar']}" update="login"/>
                         </h:panelGrid>
                     </p:panel>
-                    <p:commandButton action="buscarProductos" value="Ver Productos(usr)"/>
+
                     <p:commandButton action="registrarUsuario" value="Registrar Usuario(usr)"/>
                     <p:commandButton action="verVentas" value="Ver Ventas(admin)"/>
                 </h:form>
