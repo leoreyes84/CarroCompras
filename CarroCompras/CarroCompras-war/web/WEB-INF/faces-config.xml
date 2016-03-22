@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <navigation-rule>
+        <from-view-id>login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>buscarProductos</from-outcome>
+            <to-view-id>/paginas/buscarProductos.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarUsuario</from-outcome>
+            <to-view-id>/paginas/registroUsuario.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>verVentas</from-outcome>
+            <to-view-id>/paginas/verVentas.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/buscarProductos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>comprar</from-outcome>
+            <to-view-id>/paginas/comprar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/comprar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pagar</from-outcome>
+            <to-view-id>/paginas/resumenCompra.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cancelarCompra</from-outcome>
+            <to-view-id>/paginas/buscarProductos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/resumenCompra.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>terminar</from-outcome>
+            <to-view-id>paginas/buscarProductos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/registroUsuario.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>guardar</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>salir</from-outcome>
+            <to-view-id>login.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+</faces-config>
