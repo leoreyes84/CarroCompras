@@ -19,17 +19,19 @@ and open the template in the editor.
                 <h:outputText value="Gestionar Productos" />
             </ui:define>
             <ui:define name="body">
-                <h:form id="gestionarProductos">
+                <h:form id="formPrincipal">
                     <p:growl id="growl" showDetail="false" sticky="true" life="500"/>
                     <p:panel id="basic" header="#{msg['gestion.productos.label']}" style="margin-bottom:20px">
                         <h:panelGroup layout="block">
-                            <p:commandButton value="#{msg['gestion.productos.button.agregar']}" onclick="nuevoCiclo.show()" id="agregar" icon="ui-icon-circle-plus" />
+                            <p:commandButton value="#{msg['gestion.productos.button.agregar']}" onclick="PF('nuevoProducto').show()" id="agregar" icon="ui-icon-circle-plus" />
                         </h:panelGroup>
                         <h:panelGroup layout="block">
-                            
+
                             <p:outputPanel id="panelTabla">
-                                <p:dataTable id="productos" var="producto" value="#{productosMB.mediumProductoModel}" paginatorPosition="bottom" paginator="true" rows="10"
-                                             selection="#{productosMB.selectedProducto}" widgetVar="tablaProductos">
+                                <p:dataTable id="productos" var="producto" value="#{gestionarProductosMB.mediumProductoModel}" 
+                                             paginatorPosition="bottom" paginator="true" rows="10"
+                                             selection="#{gestionarProductosMB.selectedProducto}" widgetVar="tablaProductos"
+                                             emptyMessage="#{msg['gestion.productos.label.table.empty']}">
 
                                     <p:column selectionMode="single" style="width:18px"/>
 
@@ -37,34 +39,197 @@ and open the template in the editor.
                                         Productos
                                     </f:facet>  
 
-                                    <p:column headerText="#{msg['gestion.productos.column.nombre']}">  
+                                    <p:column headerText="#{msg['gestion.productos.column.categoria']}"
+                                              filterBy="#{producto.catId.nombre}" sortBy="#{producto.catId.nombre}" 
+                                              filterMatchMode="contains">  
+                                        #{producto.catId.nombre}
+                                    </p:column> 
+
+                                    <p:column headerText="#{msg['gestion.productos.column.nombre']}"
+                                              filterBy="#{producto.prodNombre}" sortBy="#{producto.prodNombre}" 
+                                              filterMatchMode="contains">  
                                         #{producto.prodNombre}
                                     </p:column>
 
-                                    <p:column headerText="#{msg['gestion.productos.column.descripcion']}">  
-                                        
+                                    <p:column headerText="#{msg['gestion.productos.column.descripcion']}"
+                                              filterBy="#{producto.prodDescripcion}" sortBy="#{producto.prodDescripcion}" 
+                                              filterMatchMode="contains">  
+                                        #{producto.prodDescripcion}
                                     </p:column> 
-                                    
-                                    <p:column headerText="#{msg['gestion.productos.column.precio']}">  
-                                        
+
+                                    <p:column headerText="#{msg['gestion.productos.column.precio']}"
+                                              style="text-align: right">  
+                                        <h:outputText value="#{producto.prodPrecio}">
+                                            <f:convertNumber currencySymbol="$" type="currency" />
+                                        </h:outputText>
                                     </p:column> 
-                                    
-                                    <p:column headerText="#{msg['gestion.productos.column.cantidad']}">  
-                                        
-                                    </p:column> 
-                                    
-                                    <p:column headerText="#{msg['gestion.productos.column.categoria']}">  
-                                        
+
+                                    <p:column headerText="#{msg['gestion.productos.column.cantidad']}"
+                                              style="text-align: right">  
+                                        #{producto.prodCantidad}
                                     </p:column> 
 
                                     <f:facet name="footer"> 
-                                       
+                                        <p:commandButton value="Modificar" icon="ui-icon-pencil" actionListener="#{gestionarProductosMB.cargarValoresModificar()}" 
+                                                         update=":formModificar:panelGridModificar" oncomplete="if(PF('tablaProductos').selection != ''){PF('modificaProducto').show()}else{PF('informacion').show()}"/>
+                                        <p:commandButton value="Eliminar" icon="ui-icon-circle-close" actionListener="#{gestionarProductosMB.cargarObjetoSeleccionado()}"
+                                                         update=":formEliminar:dialogEliminar" oncomplete="if(PF('tablaProductos').selection != ''){PF('eliminaProducto').show()}else{PF('informacion').show()}"/>
                                     </f:facet> 
                                 </p:dataTable> 
                             </p:outputPanel>
-                            
+
                         </h:panelGroup>
                     </p:panel>
+                </h:form>
+                <!-- NUEVO PRODUCTO -->
+                <h:form id="formNuevo">
+                    <p:growl id="messagesNuevo" showDetail="false" autoUpdate="false"/>
+                    <p:dialog id="dialogNuevo" header="Agregar Producto (*)Obligatorio" widgetVar="nuevoProducto"
+                              visible="#{not empty facesContext.maximumSeverity}" closable="false">  
+                        <p:panelGrid id="panelGridNuevo">
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Categoría: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{gestionarProductosMB.idCategoria}" label="Categoría" required="true">
+                                        <f:selectItem itemValue="" itemLabel="- Seleccione -"/>
+                                        <f:selectItems value="#{gestionarProductosMB.listNombreCat}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Nombre Producto: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.nombreProducto}" required="true" 
+                                                 label="Nombre Producto" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Descripción: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.descripcion}" required="true" 
+                                                 label="Descripción" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Precio: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.precio}" required="true" 
+                                                 label="Precio"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Cantidad: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.cantidad}" required="true" 
+                                                 label="Precio"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <div align="center">
+                                        <p:commandButton id="cancelarNuevo" value="Cerrar" actionListener="#{gestionarProductosMB.limpiarValores()}"
+                                                         update="dialogNuevo" process="@none" icon="ui-icon-close"/>  
+                                        <p:commandButton id="aceptarNuevo" value="Agregar" actionListener="#{gestionarProductosMB.guardarProducto()}" 
+                                                         update="messagesNuevo,dialogNuevo,:formPrincipal:panelTabla" process="@this,panelGridNuevo" icon="ui-icon-check"/>  
+                                    </div>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>  
+                    </p:dialog>
+                </h:form>
+                <!-- MODIFICAR PRODUCTO -->
+                <h:form id="formModificar">
+                    <p:growl id="messagesModificar" showDetail="false" autoUpdate="false"/>
+                    <p:dialog id="dialogModificar" header="Modificar Producto (*)Obligatorio" widgetVar="modificaProducto"
+                              visible="#{not empty facesContext.maximumSeverity}" closable="false">  
+                        <p:panelGrid id="panelGridModificar">
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Categoría: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu value="#{gestionarProductosMB.idCategoria}" label="Categoría" required="true">
+                                        <f:selectItem itemValue="" itemLabel="- Seleccione -"/>
+                                        <f:selectItems value="#{gestionarProductosMB.listNombreCat}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Nombre Producto: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.nombreProducto}" required="true" 
+                                                 label="Nombre Producto" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Descripción: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.descripcion}" required="true" 
+                                                 label="Descripción" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Precio: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.precio}" required="true" 
+                                                 label="Precio"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Cantidad: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{gestionarProductosMB.cantidad}" required="true" 
+                                                 label="Precio"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="3">
+                                    <div align="center">
+                                        <p:commandButton value="Cerrar" actionListener="#{gestionarProductosMB.limpiarValores()}" 
+                                                         update="dialogModificar" process="@none" icon="ui-icon-close"/>  
+                                        <p:commandButton value="Modificar" actionListener="#{gestionarProductosMB.modificarProducto()}" 
+                                                         update="messagesModificar,dialogModificar,:formPrincipal:panelTabla" process="@this,panelGridModificar" icon="ui-icon-check"/>  
+                                    </div>
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>  
+                    </p:dialog>
+                </h:form>
+                <!-- ELIMINAR PRODUCTO -->
+                <h:form id="formEliminar">
+                    <p:growl id="messagesEliminar" showDetail="false" autoUpdate="false"/>
+                    <p:confirmDialog id="dialogEliminar" message="Está seguro de eliminar el registro?" 
+                                     header="Confirme" widgetVar="eliminaProducto" closable="false">  
+                        <p:commandButton id="confirmElim" value="Si, Eliminar" update="messagesEliminar,dialogEliminar,:formPrincipal:panelTabla" oncomplete="PF('eliminaProducto').hide()"  
+                                         actionListener="#{gestionarProductosMB.eliminarProducto()}" icon="ui-icon-check"/>  
+                        <p:commandButton id="declineEnv" value="Aún no" onclick="PF('eliminaProducto').hide()" type="button" icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                </h:form>
+                <!-- INFORMACIÓN -->
+                <h:form id="formInfo">
+                    <p:confirmDialog id="dialogInformacion" message="Debe seleccionar un registro"  
+                                     header="Atención" severity="alert" widgetVar="informacion">  
+                        <p:commandButton value="Aceptar" onclick="PF('informacion').hide()" type="button" icon="ui-icon-check"/>  
+                    </p:confirmDialog>
                 </h:form>
             </ui:define>
         </ui:composition>
