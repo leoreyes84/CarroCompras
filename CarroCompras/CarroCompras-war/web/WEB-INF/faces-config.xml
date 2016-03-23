@@ -26,8 +26,8 @@
             <redirect />
         </navigation-case>
         <navigation-case>
-            <from-outcome>verVentas</from-outcome>
-            <to-view-id>/paginas/verVentas.xhtml</to-view-id>
+            <from-outcome>gestionarProductos</from-outcome>
+            <to-view-id>/paginas/gestionarProductos.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
