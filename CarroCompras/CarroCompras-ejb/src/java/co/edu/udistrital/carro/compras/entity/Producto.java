@@ -6,22 +6,28 @@
 package co.edu.udistrital.carro.compras.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Leonardo
+ * @author lreyes
  */
 @Entity
 @Table(name = "producto")
@@ -32,8 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Producto.findByProdNombre", query = "SELECT p FROM Producto p WHERE p.prodNombre = :prodNombre"),
     @NamedQuery(name = "Producto.findByProdDescripcion", query = "SELECT p FROM Producto p WHERE p.prodDescripcion = :prodDescripcion"),
     @NamedQuery(name = "Producto.findByProdPrecio", query = "SELECT p FROM Producto p WHERE p.prodPrecio = :prodPrecio"),
-    @NamedQuery(name = "Producto.findByProdCantidad", query = "SELECT p FROM Producto p WHERE p.prodCantidad = :prodCantidad"),
-    @NamedQuery(name = "Producto.findByCatId", query = "SELECT p FROM Producto p WHERE p.catId = :catId")})
+    @NamedQuery(name = "Producto.findByProdCantidad", query = "SELECT p FROM Producto p WHERE p.prodCantidad = :prodCantidad")})
 public class Producto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,10 +62,11 @@ public class Producto implements Serializable {
     @NotNull
     @Column(name = "prod_cantidad")
     private int prodCantidad;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cat_id")
-    private int catId;
+    @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
+    @ManyToOne(optional = false)
+    private Categoria catId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodId")
+    private List<DetalleVenta> detalleVentaList;
 
     public Producto() {
     }
@@ -69,12 +75,11 @@ public class Producto implements Serializable {
         this.prodId = prodId;
     }
 
-    public Producto(Integer prodId, String prodNombre, double prodPrecio, int prodCantidad, int catId) {
+    public Producto(Integer prodId, String prodNombre, double prodPrecio, int prodCantidad) {
         this.prodId = prodId;
         this.prodNombre = prodNombre;
         this.prodPrecio = prodPrecio;
         this.prodCantidad = prodCantidad;
-        this.catId = catId;
     }
 
     public Integer getProdId() {
@@ -117,12 +122,21 @@ public class Producto implements Serializable {
         this.prodCantidad = prodCantidad;
     }
 
-    public int getCatId() {
+    public Categoria getCatId() {
         return catId;
     }
 
-    public void setCatId(int catId) {
+    public void setCatId(Categoria catId) {
         this.catId = catId;
+    }
+
+    @XmlTransient
+    public List<DetalleVenta> getDetalleVentaList() {
+        return detalleVentaList;
+    }
+
+    public void setDetalleVentaList(List<DetalleVenta> detalleVentaList) {
+        this.detalleVentaList = detalleVentaList;
     }
 
     @Override

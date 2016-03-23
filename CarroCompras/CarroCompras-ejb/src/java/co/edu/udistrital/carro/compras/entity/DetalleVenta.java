@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Leonardo
+ * @author lreyes
  */
 @Entity
 @Table(name = "detalle_venta")
@@ -36,9 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DetalleVenta.findByVenValor", query = "SELECT d FROM DetalleVenta d WHERE d.venValor = :venValor"),
     @NamedQuery(name = "DetalleVenta.findByVenCantidad", query = "SELECT d FROM DetalleVenta d WHERE d.venCantidad = :venCantidad"),
     @NamedQuery(name = "DetalleVenta.findByVenComentario", query = "SELECT d FROM DetalleVenta d WHERE d.venComentario = :venComentario"),
-    @NamedQuery(name = "DetalleVenta.findByVenMedioPago", query = "SELECT d FROM DetalleVenta d WHERE d.venMedioPago = :venMedioPago"),
-    @NamedQuery(name = "DetalleVenta.findByUsrId", query = "SELECT d FROM DetalleVenta d WHERE d.usrId = :usrId"),
-    @NamedQuery(name = "DetalleVenta.findByProdId", query = "SELECT d FROM DetalleVenta d WHERE d.prodId = :prodId")})
+    @NamedQuery(name = "DetalleVenta.findByVenMedioPago", query = "SELECT d FROM DetalleVenta d WHERE d.venMedioPago = :venMedioPago")})
 public class DetalleVenta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,14 +67,12 @@ public class DetalleVenta implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "ven_medio_pago")
     private String venMedioPago;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "usr_id")
-    private int usrId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "prod_id")
-    private int prodId;
+    @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
+    @ManyToOne(optional = false)
+    private Usuario usrId;
+    @JoinColumn(name = "prod_id", referencedColumnName = "prod_id")
+    @ManyToOne(optional = false)
+    private Producto prodId;
 
     public DetalleVenta() {
     }
@@ -83,14 +81,12 @@ public class DetalleVenta implements Serializable {
         this.venId = venId;
     }
 
-    public DetalleVenta(Integer venId, Date venFecha, double venValor, int venCantidad, String venMedioPago, int usrId, int prodId) {
+    public DetalleVenta(Integer venId, Date venFecha, double venValor, int venCantidad, String venMedioPago) {
         this.venId = venId;
         this.venFecha = venFecha;
         this.venValor = venValor;
         this.venCantidad = venCantidad;
         this.venMedioPago = venMedioPago;
-        this.usrId = usrId;
-        this.prodId = prodId;
     }
 
     public Integer getVenId() {
@@ -141,19 +137,19 @@ public class DetalleVenta implements Serializable {
         this.venMedioPago = venMedioPago;
     }
 
-    public int getUsrId() {
+    public Usuario getUsrId() {
         return usrId;
     }
 
-    public void setUsrId(int usrId) {
+    public void setUsrId(Usuario usrId) {
         this.usrId = usrId;
     }
 
-    public int getProdId() {
+    public Producto getProdId() {
         return prodId;
     }
 
-    public void setProdId(int prodId) {
+    public void setProdId(Producto prodId) {
         this.prodId = prodId;
     }
 

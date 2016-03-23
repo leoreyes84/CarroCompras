@@ -6,22 +6,28 @@
 package co.edu.udistrital.carro.compras.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Leonardo
+ * @author lreyes
  */
 @Entity
 @Table(name = "usuario")
@@ -32,8 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findByUsrNombres", query = "SELECT u FROM Usuario u WHERE u.usrNombres = :usrNombres"),
     @NamedQuery(name = "Usuario.findByUsrApellidos", query = "SELECT u FROM Usuario u WHERE u.usrApellidos = :usrApellidos"),
     @NamedQuery(name = "Usuario.findByUsrEmail", query = "SELECT u FROM Usuario u WHERE u.usrEmail = :usrEmail"),
-    @NamedQuery(name = "Usuario.findByUsrContrasenia", query = "SELECT u FROM Usuario u WHERE u.usrContrasenia = :usrContrasenia"),
-    @NamedQuery(name = "Usuario.findByRolId", query = "SELECT u FROM Usuario u WHERE u.rolId = :rolId")})
+    @NamedQuery(name = "Usuario.findByUsrContrasenia", query = "SELECT u FROM Usuario u WHERE u.usrContrasenia = :usrContrasenia")})
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,10 +66,11 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "usr_contrasenia")
     private String usrContrasenia;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "rol_id")
-    private int rolId;
+    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
+    @ManyToOne(optional = false)
+    private Rol rolId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usrId")
+    private List<DetalleVenta> detalleVentaList;
 
     public Usuario() {
     }
@@ -73,13 +79,12 @@ public class Usuario implements Serializable {
         this.usrId = usrId;
     }
 
-    public Usuario(Integer usrId, String usrNombres, String usrApellidos, String usrEmail, String usrContrasenia, int rolId) {
+    public Usuario(Integer usrId, String usrNombres, String usrApellidos, String usrEmail, String usrContrasenia) {
         this.usrId = usrId;
         this.usrNombres = usrNombres;
         this.usrApellidos = usrApellidos;
         this.usrEmail = usrEmail;
         this.usrContrasenia = usrContrasenia;
-        this.rolId = rolId;
     }
 
     public Integer getUsrId() {
@@ -122,12 +127,21 @@ public class Usuario implements Serializable {
         this.usrContrasenia = usrContrasenia;
     }
 
-    public int getRolId() {
+    public Rol getRolId() {
         return rolId;
     }
 
-    public void setRolId(int rolId) {
+    public void setRolId(Rol rolId) {
         this.rolId = rolId;
+    }
+
+    @XmlTransient
+    public List<DetalleVenta> getDetalleVentaList() {
+        return detalleVentaList;
+    }
+
+    public void setDetalleVentaList(List<DetalleVenta> detalleVentaList) {
+        this.detalleVentaList = detalleVentaList;
     }
 
     @Override
