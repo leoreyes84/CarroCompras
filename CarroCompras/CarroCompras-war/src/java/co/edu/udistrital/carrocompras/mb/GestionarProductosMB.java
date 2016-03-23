@@ -19,9 +19,9 @@ import javax.faces.bean.RequestScoped;
  *
  * @author Leonardo
  */
-@ManagedBean(name="productosMB")
+@ManagedBean
 @RequestScoped
-public class ProductosMB {
+public class GestionarProductosMB {
     @EJB
     private ProductoFacadeLocal productoFacade;
     private List<Producto> productos;
@@ -31,7 +31,7 @@ public class ProductosMB {
     /**
      * Creates a new instance of ProductosMB
      */
-    public ProductosMB() {
+    public GestionarProductosMB() {
     }
     
     
