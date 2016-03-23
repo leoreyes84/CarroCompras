@@ -30,4 +30,6 @@ public interface ProductoFacadeLocal {
 
     int count();
     
+    List<Producto> productoPorCategoria(Integer idCategoria);
+    
 }
