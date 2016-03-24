@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,6 +29,7 @@ import javax.faces.bean.RequestScoped;
 public class BuscarProductosMB implements Serializable {
 
     private List<Producto> listaProductos;
+    private List<Producto> productosSeleccionados;
     private List<Categoria> listaCategorias;
     private Map<String, Integer> listNombreCat = new HashMap<String, Integer>();
 
@@ -92,6 +94,11 @@ public class BuscarProductosMB implements Serializable {
         }
 
     }
+    
+    public void irACompras(){
+        System.out.println("Entró al método de ir a compras");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaProductosSel", productosSeleccionados);
+    }
 
     public List<Producto> getListaProductos() {
         return listaProductos;
@@ -124,6 +131,14 @@ public class BuscarProductosMB implements Serializable {
 
     public void setListNombreCat(Map<String, Integer> listNombreCat) {
         this.listNombreCat = listNombreCat;
+    }
+
+    public List<Producto> getProductosSeleccionados() {
+        return productosSeleccionados;
+    }
+
+    public void setProductosSeleccionados(List<Producto> productosSeleccionados) {
+        this.productosSeleccionados = productosSeleccionados;
     }
 
 }

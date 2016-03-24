@@ -14,14 +14,57 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+        <f:event type="preRenderView" listener="#{comprarProductosMB.init}" /> 
         <ui:composition template="../templates/template.xhtml">
             <ui:define name="title">
                 <h:outputText value="Comprar" />
             </ui:define>
             <ui:define name="body">
                 <h:form id="comprar">
-                    <p:outputLabel value="Resumen de productos a comprar"/><p/>
-                    <p:commandButton action="pagar" value="Pagar"/>
+                    <p:outputLabel value="Resumen de productos a comprar"/><p/>                    
+
+                    <p:dataTable id="tablaResumenProductos" emptyMessage="No hay productos agregados en el carrito de compras" style="width: 450px" var="resumenProd" value="#{comprarProductosMB.productosSelCompra}" >
+                        <f:facet name="header">
+                            Resumen de Productos a Comprar
+                        </f:facet>
+                        <p:column headerText="Nombre Producto">
+                            <h:outputText value="#{resumenProd.prodNombre}" />
+                        </p:column>
+
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{resumenProd.prodDescripcion}" />
+                        </p:column>
+
+                        <p:column headerText="Precio" style="text-align:center">
+                            <h:outputText value="#{resumenProd.prodPrecio}" />
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="El Valor Total a pagar es:" />
+                                <p:column footerText="$#{comprarProductosMB.valorTotalPago}" />
+                            </p:row>
+                        </p:columnGroup>
+                        <f:facet name="footer" >
+                            Cantidad de Artículos: #{comprarProductosMB.cantidadArticulos}
+                        </f:facet>
+                    </p:dataTable>
+                    <br />
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="mediosPago" value="Medios de Pago: " />
+                        <p:selectOneMenu id="mediosPago" value="#{comprarProductosMB.medioPagoProducto}" style="width:223px">
+                            <f:selectItem itemLabel="Seleccione uno" itemValue="" />
+                            <f:selectItem itemLabel="Efectivo" itemValue="Efectivo" />
+                            <f:selectItem itemLabel="Tarjeta Debito" itemValue="tDebito" />
+                            <f:selectItem itemLabel="Tarjeta Credito" itemValue="tCredito" />
+                        </p:selectOneMenu>
+                         
+                         <p:outputLabel for="comentario" value="Comentario: " />
+                         <p:inputTextarea id="comentario" value="#{comprarProductosMB.comentarioPago}" style="width:215px" />
+                    </p:panelGrid>
+                    <br />
+                    
+                    <p:commandButton value="preparar pago" actionListener="#{comprarProductosMB.prepararPago()}"/>
+                   <!-- este es el que tiene la regla de navegacion <p:commandButton action="pagar" value="Pagar"/> -->
                     <p:commandButton action="cancelarCompra" value="Cancelar"/>
                     <p:commandButton action="salir" value="Salir"/>
                 </h:form>

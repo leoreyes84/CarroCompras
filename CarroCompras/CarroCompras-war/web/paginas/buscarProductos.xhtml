@@ -16,6 +16,7 @@
             </ui:define>
             <ui:define name="body">
                 <h:form id="buscarProductos">
+                    <p:outputLabel value="Busqueda de Productos"/><p/>
                     <p:panelGrid columns="2">
                         <p:outputLabel for="categorias" value="Categorias:" />
                         <p:selectOneMenu id="categorias" value="#{buscarProductosMB.idCategoria}" style="width:223px">
@@ -24,7 +25,10 @@
                             <p:ajax listener="#{buscarProductosMB.filtrarProducto()}" update=":buscarProductos" />
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:dataTable var="producto" value="#{buscarProductosMB.listaProductos}">
+                    <p:dataTable id="tablaProductos" var="producto" value="#{buscarProductosMB.listaProductos}" 
+                                 rowKey="#{producto.prodId}" selection="#{buscarProductosMB.productosSeleccionados}">
+
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
                         <p:column headerText="Nombre Producto">
                             <h:outputText value="#{producto.prodNombre}" />
                         </p:column>
@@ -37,16 +41,25 @@
                             <h:outputText value="#{producto.prodPrecio}" />
                         </p:column>
 
-                        <p:column headerText="Cantidad">
+                        <p:column headerText="Cantidad Disponible">
                             <h:outputText value="#{producto.prodCantidad}" />
                         </p:column>
                     </p:dataTable>
-
-
-
-                    <p:outputLabel value="Busqueda de Productos"/><p/>
-                    <p:commandButton action="comprar" value="Comprar"/>
+                    <br />
+                    <br />
+                <p:commandButton process="tablaProductos" update=":buscarProductos:multiProdDetail" value="Agregar al Carrito" 
+                                 oncomplete="PF('multiProdDialog').show()" />
+                    
+                <p:commandButton action="comprar" actionListener="#{buscarProductosMB.irACompras}" value="Comprar"/>
                     <p:commandButton action="salir" value="Salir"/>
+
+                    <p:dialog header="Productos Agregados al Carrito" widgetVar="multiProdDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="300">
+                        <p:outputPanel id="multiProdDetail" style="text-align:center;">
+                            <ui:repeat value="#{buscarProductosMB.productosSeleccionados}" var="productoSel">
+                                <h:outputText value="#{productoSel.prodNombre} - #{productoSel.prodDescripcion}" style="display:block"/>
+                            </ui:repeat>
+                        </p:outputPanel>
+                    </p:dialog>
                 </h:form>
             </ui:define>
         </ui:composition>
