@@ -4,12 +4,25 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
-        <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <div>MENU</div>
+        <h:form id="formMenu">
+            <p:toolbar>
+                <!--Menú para financiera 'Administrador'-->
+                <p:toolbarGroup align="left">
+                    
+                </p:toolbarGroup>
+                
+                <p:toolbarGroup align="right">
+                    <p:menubar>
+                        <p:menuitem style="font-size: small" value="Salir" action="salir" icon="ui-icon-close" />  
+                    </p:menubar>
+                </p:toolbarGroup>
+            </p:toolbar>
+        </h:form>
     </h:body>
 </html>
