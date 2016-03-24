@@ -14,6 +14,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+        <f:event type="preRenderView" listener="#{resumenCompraMB.init}" /> 
         <ui:composition template="../templates/template.xhtml">
             <ui:define name="title">
                 <h:outputText value="Resumen" />
@@ -21,6 +22,41 @@ and open the template in the editor.
             <ui:define name="body">
                 <h:form id="resumenCompra">
                     <p:outputLabel value="Resumen compra"/><p/>
+
+                    <p:dataTable id="tablaResumenVenta" emptyMessage="No hay productos agregados en el carrito de compras" style="width: 700px" 
+                                 var="resumenProdVendido" value="#{resumenCompraMB.listaDetalleVenta}" >
+                        <f:facet name="header">
+                            Resumen de Productos Comprados
+                        </f:facet>
+                        <p:column headerText="Nombre Producto">
+                            <h:outputText value="#{resumenProdVendido.prodId.prodNombre}" />
+                        </p:column> 
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{resumenProdVendido.prodId.prodDescripcion}" />
+                        </p:column>                         
+                        <p:column headerText="Valor Producto" style="text-align:center">
+                            <h:outputText value="#{resumenProdVendido.venValor}" />
+                        </p:column> 
+                        <p:column headerText="Medio de Pago">
+                            <h:outputText value="#{resumenProdVendido.venMedioPago}" />
+                        </p:column> 
+                        <p:column headerText="Fecha de Compra">
+                            <h:outputText value="#{resumenProdVendido.venFecha}" > 
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </p:column> 
+                         <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Valor Total Pagado:" />
+                                <p:column footerText="$#{resumenCompraMB.valorTotalPago}" />
+                            </p:row>
+                        </p:columnGroup>
+                        <f:facet name="footer" >
+                            Cantidad de Artículos Comprados: #{resumenCompraMB.cantArticulosComprados}
+                        </f:facet>
+                        
+                    </p:dataTable>
+                    <br />
                     <p:commandButton action="terminar" value="Terminar"/>
                     <p:commandButton action="salir" value="Salir"/>
                 </h:form>

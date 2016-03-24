@@ -7,11 +7,16 @@ package co.edu.udistrital.carrocompras.mb;
 
 import co.edu.udistrital.carro.compras.entity.DetalleVenta;
 import co.edu.udistrital.carro.compras.entity.Producto;
+import co.edu.udistrital.carro.compras.entity.Usuario;
+import co.edu.udistrital.carro.compras.session.DetalleVentaFacadeLocal;
+import co.edu.udistrital.carro.compras.session.ProductoFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -26,10 +31,16 @@ public class ComprarProductosMB implements Serializable {
 
     private List<DetalleVenta> listaDetalleVenta;
     private List<Producto> productosSelCompra;
+    private List<Producto> listaProdExistentes;
     private Double valorTotalPago = 0d;
     private Integer cantidadArticulos = 0;
     private String medioPagoProducto;
     private String comentarioPago;
+
+    @EJB
+    private DetalleVentaFacadeLocal detalleVentaFacade;
+    @EJB
+    private ProductoFacadeLocal productoFacade;
 
     /**
      * Creates a new instance of BuscarProductosMB
@@ -59,30 +70,36 @@ public class ComprarProductosMB implements Serializable {
     }
 
     public void prepararPago() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Pago Realizado", "Pago Exitoso "));
+        listaDetalleVenta = new ArrayList<>();
+        listaProdExistentes = productoFacade.findAll();
         if (productosSelCompra != null && productosSelCompra.size() > 0) {
             DetalleVenta detalleVentaTemp = new DetalleVenta();
             for (Producto productoTemp : productosSelCompra) {
 
                 detalleVentaTemp.setProdId(productoTemp);
                 detalleVentaTemp.setVenFecha(new Date());
-                detalleVentaTemp.setVenValor(valorTotalPago);
-                detalleVentaTemp.setVenCantidad(cantidadArticulos);
+                detalleVentaTemp.setVenValor(productoTemp.getProdPrecio());
+                detalleVentaTemp.setVenCantidad(1);
                 detalleVentaTemp.setVenMedioPago(medioPagoProducto);
                 detalleVentaTemp.setVenComentario(comentarioPago);
+                detalleVentaTemp.setUsrId(new Usuario());
+                detalleVentaTemp.getUsrId().setUsrId(1);
 
-               listaDetalleVenta.add(detalleVentaTemp);
+                detalleVentaFacade.create(detalleVentaTemp);
+                listaDetalleVenta.add(detalleVentaTemp);
+                int cantExistente = 0;
+                for (Producto productoTemp2 : listaProdExistentes) {
+                    if (productoTemp2.getProdId().intValue() == detalleVentaTemp.getProdId().getProdId()) {
+                        cantExistente = productoTemp2.getProdCantidad();
+                        cantExistente = cantExistente - detalleVentaTemp.getVenCantidad();
+                        productoTemp2.setProdCantidad(cantExistente);
+                        productoFacade.edit(productoTemp2);
+                    }
+                }
             }
-            for (DetalleVenta listaDetalleVenta1 : listaDetalleVenta) {
-                System.out.println(listaDetalleVenta1.getProdId().getProdId());
-                System.out.println(listaDetalleVenta1.getVenFecha());
-                System.out.println(listaDetalleVenta1.getVenValor());
-                System.out.println(listaDetalleVenta1.getVenCantidad());
-                System.out.println(listaDetalleVenta1.getVenMedioPago());
-                System.out.println(listaDetalleVenta1.getVenComentario());
-                
-                
-            }
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaProdVendidos", listaDetalleVenta);
         }
     }
 

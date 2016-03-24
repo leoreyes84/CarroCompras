@@ -53,11 +53,13 @@
                 <p:commandButton action="comprar" actionListener="#{buscarProductosMB.irACompras}" value="Comprar"/>
                     <p:commandButton action="salir" value="Salir"/>
 
-                    <p:dialog header="Productos Agregados al Carrito" widgetVar="multiProdDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="300">
+                    <p:dialog header="Productos Agregados al Carrito" widgetVar="multiProdDialog" 
+                              modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="350" >
                         <p:outputPanel id="multiProdDetail" style="text-align:center;">
                             <ui:repeat value="#{buscarProductosMB.productosSeleccionados}" var="productoSel">
-                                <h:outputText value="#{productoSel.prodNombre} - #{productoSel.prodDescripcion}" style="display:block"/>
+                                <h:outputText value="#{productoSel.prodNombre} - #{productoSel.prodDescripcion} - $#{productoSel.prodPrecio}" style="display:block"/>
                             </ui:repeat>
+                            <h:outputText rendered="#{buscarProductosMB.productosSeleccionados.size() eq 0}" value="No Hay productos agregados al carrito"/>
                         </p:outputPanel>
                     </p:dialog>
                 </h:form>

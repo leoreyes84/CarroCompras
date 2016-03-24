@@ -21,6 +21,7 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="body">
                 <h:form id="comprar">
+                    <p:growl id="growl" showDetail="false" sticky="true" />  
                     <p:outputLabel value="Resumen de productos a comprar"/><p/>                    
 
                     <p:dataTable id="tablaResumenProductos" emptyMessage="No hay productos agregados en el carrito de compras" style="width: 450px" var="resumenProd" value="#{comprarProductosMB.productosSelCompra}" >
@@ -51,7 +52,8 @@ and open the template in the editor.
                     <br />
                     <p:panelGrid columns="2">
                         <p:outputLabel for="mediosPago" value="Medios de Pago: " />
-                        <p:selectOneMenu id="mediosPago" value="#{comprarProductosMB.medioPagoProducto}" style="width:223px">
+                        <p:selectOneMenu id="mediosPago" value="#{comprarProductosMB.medioPagoProducto}"
+                                         required="true" style="width:223px">
                             <f:selectItem itemLabel="Seleccione uno" itemValue="" />
                             <f:selectItem itemLabel="Efectivo" itemValue="Efectivo" />
                             <f:selectItem itemLabel="Tarjeta Debito" itemValue="tDebito" />
@@ -63,10 +65,9 @@ and open the template in the editor.
                     </p:panelGrid>
                     <br />
                     
-                    <p:commandButton value="preparar pago" actionListener="#{comprarProductosMB.prepararPago()}"/>
-                   <!-- este es el que tiene la regla de navegacion <p:commandButton action="pagar" value="Pagar"/> -->
-                    <p:commandButton action="cancelarCompra" value="Cancelar"/>
-                    <p:commandButton action="salir" value="Salir"/>
+                    <p:commandButton  action="pagar" value="Realizar Pago" update="growl" actionListener="#{comprarProductosMB.prepararPago()}"/>                  
+                    <p:commandButton action="cancelarCompra" value="Cancelar" immediate="true"/>
+                    <p:commandButton action="salir" value="Salir" immediate="true"/>
                 </h:form>
             </ui:define>
         </ui:composition>
