@@ -20,9 +20,55 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="body">
                 <h:form id="registroUsuario">
-                    <p:outputLabel value="Registrar usuario"/><p/>
-                    <p:commandButton action="guardar" value="Guardar"/>
-                    <p:commandButton action="salir" value="Salir"/>
+                    <p:growl id="growl" showDetail="false" sticky="true" life="500"/>
+                    <p:panel id="basic" header="Crear Usuario" style="margin-bottom:20px">
+                        <p:panelGrid id="panelGridNuevo">
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Nombres: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{registroUsuarioMB.nombres}" required="true" 
+                                                 label="Nombres" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Apellidos: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{registroUsuarioMB.apellidos}" required="true" 
+                                                 label="Apellidos" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Email: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{registroUsuarioMB.email}" required="true" 
+                                                 label="Email" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Contraseña: *" />
+                                </p:column>
+                                <p:column>
+                                    <p:password value="#{registroUsuarioMB.contrasenia}" required="true" feedback="true"
+                                                label="Contraseña" maxlength="45"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <div align="center">
+                                        <p:commandButton value="Guardar" actionListener="#{registroUsuarioMB.guardarUsuario()}"
+                                                         process="@all" update=":registroUsuario" action="guardar"/>
+                                    </div>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
                 </h:form>
             </ui:define>
         </ui:composition>

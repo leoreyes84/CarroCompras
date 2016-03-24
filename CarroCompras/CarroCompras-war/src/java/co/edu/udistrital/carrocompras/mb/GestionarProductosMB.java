@@ -33,9 +33,6 @@ public class GestionarProductosMB {
     // /////////////////////////////////////////////////////////////////////////
     // Logger de la clase
     // /////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
     private static Logger _logger = Logger.getLogger(GestionarProductosMB.class);
 
     //////////////////////////////////////
@@ -98,6 +95,7 @@ public class GestionarProductosMB {
             _logger.error(ex.getMessage(), ex);
         }
     }
+    
 
     /**
      * Modifica el producto

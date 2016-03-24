@@ -19,16 +19,16 @@
                     <p:panel id="basic" header="#{msg['login.label.inicio.sesion']}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
                             <h:outputText value="#{msg['login.label.usuario']}" />
-                            <p:inputText  id="usuario" required="false" label="#{msg['login.label.usuario']}" maxlength="50"/>
+                            <p:inputText  value="#{indexMB.email}" required="false" label="#{msg['login.label.usuario']}" maxlength="50"/>
                             <h:outputText value="#{msg['login.label.contrasenia']}" />
-                            <p:inputText  id="ciclo" required="false" label="#{msg['login.label.contrasenia']}" maxlength="50"/>
+                            <p:password  value="#{indexMB.contrasenia}" required="false" label="#{msg['login.label.contrasenia']}" maxlength="50"/>
                         </h:panelGrid>
-                        <h:panelGrid columns="1" style="">
-                            <p:commandButton action="buscarProductos" value="#{msg['login.button.ingresar']}" update="login"/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton action="buscarProductos" value="#{msg['login.button.ingresar']}" 
+                                             actionListener="#{indexMB.iniciarSesion()}" update="login" process="@all"/>
+                            <p:commandButton action="registrarUsuario" value="Registrar Usuario"/>
                         </h:panelGrid>
                     </p:panel>
-
-                    <p:commandButton action="registrarUsuario" value="Registrar Usuario(usr)"/>
                     <p:commandButton action="gestionarProductos" value="Gestionar Productos(admin)"/>
                 </h:form>
             </ui:define>
