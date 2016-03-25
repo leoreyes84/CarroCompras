@@ -37,7 +37,9 @@ and open the template in the editor.
                         </p:column>
 
                         <p:column headerText="Precio" style="text-align:center">
-                            <h:outputText value="#{resumenProd.prodPrecio}" />
+                            <h:outputText value="#{resumenProd.prodPrecio}">
+                                <f:convertNumber currencySymbol="$" type="currency" />
+                            </h:outputText>
                         </p:column>
                         <p:columnGroup type="footer">
                             <p:row>
@@ -59,12 +61,12 @@ and open the template in the editor.
                             <f:selectItem itemLabel="Tarjeta Debito" itemValue="tDebito" />
                             <f:selectItem itemLabel="Tarjeta Credito" itemValue="tCredito" />
                         </p:selectOneMenu>
-                         
-                         <p:outputLabel for="comentario" value="Comentario: " />
-                         <p:inputTextarea id="comentario" value="#{comprarProductosMB.comentarioPago}" style="width:215px" />
+
+                        <p:outputLabel for="comentario" value="Comentario: " />
+                        <p:inputTextarea id="comentario" value="#{comprarProductosMB.comentarioPago}" style="width:215px" />
                     </p:panelGrid>
                     <br />
-                    
+
                     <p:commandButton  action="pagar" value="Realizar Pago" update="growl" actionListener="#{comprarProductosMB.prepararPago()}"/>                  
                     <p:commandButton action="cancelarCompra" value="Cancelar" immediate="true"/>
                     <p:commandButton action="salir" value="Salir" immediate="true"/>

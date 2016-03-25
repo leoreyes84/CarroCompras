@@ -78,10 +78,6 @@ public class RegistroUsuarioMB {
         }
     }
 
-    public void salir() {
-
-    }
-
     private String getMD5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

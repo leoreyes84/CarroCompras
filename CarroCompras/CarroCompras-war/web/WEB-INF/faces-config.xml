@@ -16,6 +16,11 @@
     <navigation-rule>
         <from-view-id>login.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>bienvenidaAdmin</from-outcome>
+            <to-view-id>/paginas/bienvenidaAdmin.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
             <from-outcome>buscarProductos</from-outcome>
             <to-view-id>/paginas/buscarProductos.xhtml</to-view-id>
             <redirect />
@@ -25,9 +30,17 @@
             <to-view-id>/paginas/registroUsuario.xhtml</to-view-id>
             <redirect />
         </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>menu.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>gestionarProductos</from-outcome>
-            <to-view-id>/paginas/gestionarProductos.xhtml</to-view-id>
+            <from-outcome>registrarUsuario</from-outcome>
+            <to-view-id>/paginas/registroUsuario.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>verVentas</from-outcome>
+            <to-view-id>/paginas/verVentas.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -61,6 +74,10 @@
         <from-view-id>/paginas/registroUsuario.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>guardar</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>salir</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

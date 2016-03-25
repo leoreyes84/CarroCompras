@@ -84,8 +84,9 @@ public class ComprarProductosMB implements Serializable {
                 detalleVentaTemp.setVenCantidad(1);
                 detalleVentaTemp.setVenMedioPago(medioPagoProducto);
                 detalleVentaTemp.setVenComentario(comentarioPago);
+                Integer idUsuario = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUsuario");
                 detalleVentaTemp.setUsrId(new Usuario());
-                detalleVentaTemp.getUsrId().setUsrId(1);
+                detalleVentaTemp.getUsrId().setUsrId(idUsuario);
 
                 detalleVentaFacade.create(detalleVentaTemp);
                 listaDetalleVenta.add(detalleVentaTemp);

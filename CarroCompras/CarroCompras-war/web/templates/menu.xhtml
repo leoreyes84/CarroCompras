@@ -11,18 +11,25 @@
     </h:head>
     <h:body>
         <h:form id="formMenu">
-            <p:toolbar>
-                <!--Menú para financiera 'Administrador'-->
-                <p:toolbarGroup align="left">
-                    
-                </p:toolbarGroup>
-                
-                <p:toolbarGroup align="right">
-                    <p:menubar>
-                        <p:menuitem style="font-size: small" value="Salir" action="salir" icon="ui-icon-close" />  
-                    </p:menubar>
-                </p:toolbarGroup>
-            </p:toolbar>
+            <c:if test="#{indexMB.menuVisible}">
+                <p:toolbar>
+                    <!--Menú para 'Administrador'-->
+                    <c:if test="#{indexMB.rol=='Admin'}">
+                        <p:toolbarGroup align="left">
+                            <p:menubar>
+                                <p:menuitem style="font-size: small" value="Gestionar Productos" action="gestionarProductos" icon="ui-icon-clipboard" /> 
+                                <p:menuitem style="font-size: small" value="Ver Ventas" action="verVentas" icon="ui-icon-script" /> 
+                            </p:menubar>
+                        </p:toolbarGroup>
+                    </c:if>
+                    <p:toolbarGroup align="right">
+                        <p:menubar>
+                            <p:menuitem value="Salir" action="salir" actionListener="#{indexMB.salir()}" ajax="false" 
+                                        icon="ui-icon-close" style="font-size: small"/>  
+                        </p:menubar>
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </c:if>
         </h:form>
     </h:body>
 </html>

@@ -36,6 +36,7 @@ public class IndexMB {
     private Boolean menuVisible;
     private String email;//usuario de logueo
     private String contrasenia;
+    private String rol;
 
     /**
      * Creates a new instance of IndexMB
@@ -48,15 +49,42 @@ public class IndexMB {
         
     }
     
-    public void iniciarSesion() {
+    /**
+     * Logueo de usuario
+     * @return regla de navegación
+     */
+    public String iniciarSesion() {
         try {
             Usuario usuario = usuarioFacade.usuarioByEmailYPass(email, getMD5(contrasenia));
-            System.out.println(""+usuario);
+            if(usuario != null){
+                _logger.info("Login "+email);
+                menuVisible = true;
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idUsuario", usuario.getUsrId());
+                rol = usuario.getRolId().getRolNombre();
+                if (rol.equals("Admin")){
+                    return "bienvenidaAdmin";
+                }else{
+                    return "buscarProductos";
+                }
+            }else{
+                _logger.info("Login errado "+email);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Email y/o contraseña incorrecta", ""));
+                return null;
+            }
         } catch (Exception ex) {
             _logger.error(ex.getMessage(), ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR, ocurrió un error", ""));
+            return null;
         }
     }
+    
+    /**
+     * Terminar la sesion
+     */
+    public void salir(){
+        menuVisible = false;
+    }
+            
     
     private String getMD5(String input) {
         try {
@@ -97,7 +125,13 @@ public class IndexMB {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-    
-    
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
     
 }

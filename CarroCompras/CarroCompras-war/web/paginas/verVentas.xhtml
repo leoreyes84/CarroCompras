@@ -20,8 +20,43 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="body">
                 <h:form id="ventas">
-                    <p:outputLabel value="Resumen de Ventas Realizadas"/><p/>
-                    <p:commandButton action="salir" value="Salir"/>
+                    <p:panel id="basic" header="Ventas Realizadas" style="margin-bottom:20px">
+                        <h:panelGroup layout="block">
+                            <p:outputPanel id="panelTabla">
+                                <p:dataTable var="venta" value="#{verVentasMB.listaVentas}">
+                                    <p:column headerText="Fecha Venta">
+                                        <h:outputText value="#{venta.venFecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy h:mm a" timeZone="GMT-5"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Producto">
+                                        <h:outputText value="#{venta.prodId.prodNombre}" />
+                                    </p:column>
+                                    <p:column headerText="Cantidad">
+                                        <div align="right">
+                                            <h:outputText value="#{venta.venCantidad}"/>
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Valor">
+                                        <div align="right">
+                                            <h:outputText value="#{venta.venValor}">
+                                                <f:convertNumber currencySymbol="$" type="currency" />
+                                            </h:outputText>
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Medio Pago">
+                                        <h:outputText value="#{venta.venMedioPago}" />
+                                    </p:column>
+                                    <p:column headerText="Email Contacto">
+                                        <h:outputText value="#{venta.usrId.usrEmail}" />
+                                    </p:column>
+                                    <p:column headerText="Comentario Venta">
+                                        <h:outputText value="#{venta.venComentario}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
+                        </h:panelGroup>
+                    </p:panel>
                 </h:form>
             </ui:define>
         </ui:composition>

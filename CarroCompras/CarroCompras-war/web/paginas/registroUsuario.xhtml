@@ -19,6 +19,9 @@ and open the template in the editor.
                 <h:outputText value="Comprar" />
             </ui:define>
             <ui:define name="body">
+                <h:form>
+                    <p:commandButton value="Volver" action="salir" icon="ui-icon-circle-plus"/>
+                </h:form>
                 <h:form id="registroUsuario">
                     <p:growl id="growl" showDetail="false" sticky="true" life="500"/>
                     <p:panel id="basic" header="Crear Usuario" style="margin-bottom:20px">
