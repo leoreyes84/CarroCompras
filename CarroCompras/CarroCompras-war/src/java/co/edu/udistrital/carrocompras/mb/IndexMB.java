@@ -10,6 +10,7 @@ import co.edu.udistrital.carro.compras.session.UsuarioFacadeLocal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -55,7 +56,7 @@ public class IndexMB {
      */
     public String iniciarSesion() {
         try {
-            Usuario usuario = usuarioFacade.usuarioByEmailYPass(email, getMD5(contrasenia));
+            Usuario usuario = usuarioFacade.usuarioByEmailYPass(email, Sha(getMD5(contrasenia)));
             if(usuario != null){
                 _logger.info("Login "+email);
                 menuVisible = true;
@@ -101,7 +102,28 @@ public class IndexMB {
             throw new RuntimeException(e);
         }
     }
-
+private String Sha(String password){
+    
+    //String password = "123456";
+    	
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            java.util.logging.Logger.getLogger(IndexMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        md.update(password.getBytes());
+        
+        byte byteData[] = md.digest();
+ 
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+    System.out.println("Hex format : " + sb.toString());
+    return sb.toString();
+    }
     public Boolean getMenuVisible() {
         return menuVisible;
     }

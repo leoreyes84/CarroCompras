@@ -63,7 +63,7 @@ public class Usuario implements Serializable {
     private String usrEmail;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 100)
     @Column(name = "usr_contrasenia")
     private String usrContrasenia;
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
