@@ -22,7 +22,11 @@ and open the template in the editor.
                 <h:form id="formPrincipal">
                     <p:panel id="basic" header="Bienvenida" style="margin-bottom:20px">
                         <h:panelGroup layout="block">
-                            <p:outputLabel value="Seleccione alguna de las opciones del menú"/>
+                            <p:outputLabel value="Seleccione alguna de las opciones"/><br/><br/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block">
+                            <p:commandButton action="gestionarProductos" value="Gestionar Productos"/>
+                            <p:commandButton action="verVentas" value="Ver Ventas"/>
                         </h:panelGroup>
                     </p:panel>
                 </h:form>

@@ -19,7 +19,7 @@ and open the template in the editor.
                 <h:outputText value="Gestionar Productos" />
             </ui:define>
             <ui:define name="body">
-                <h:form id="formPrincipal">
+                <h:form id="formPrincipal" enctype="multipart/form-data">
                     <p:growl id="growl" showDetail="false" sticky="true" life="500"/>
                     <p:panel id="basic" header="#{msg['gestion.productos.label']}" style="margin-bottom:20px">
                         <h:panelGroup layout="block">
@@ -79,6 +79,9 @@ and open the template in the editor.
                             </p:outputPanel>
 
                         </h:panelGroup>
+                        <h:panelGroup>
+                            <p:commandButton action="volver" value="Volver"/>
+                        </h:panelGroup>
                     </p:panel>
                 </h:form>
                 <!-- NUEVO PRODUCTO -->
@@ -137,7 +140,7 @@ and open the template in the editor.
                              <p:row>
                                 <p:column colspan="2">
                                     <p:fileUpload fileUploadListener="#{gestionarProductosMB.handleFileUpload}" mode="advanced" label="Cargar Archivo"
-                                                  update="messagesFile, :formPrincipal" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                                  update="messagesFile, :formPrincipal" auto="true" sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                                     <p:growl id="messagesFile" showDetail="true" />
                                 </p:column>

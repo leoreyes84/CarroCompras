@@ -14,7 +14,7 @@
         </resource-bundle>
     </application>
     <navigation-rule>
-        <from-view-id>login.xhtml</from-view-id>
+        <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>bienvenidaAdmin</from-outcome>
             <to-view-id>/paginas/bienvenidaAdmin.xhtml</to-view-id>
@@ -32,15 +32,31 @@
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>menu.xhtml</from-view-id>
+        <from-view-id>/paginas/bienvenidaAdmin.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>registrarUsuario</from-outcome>
-            <to-view-id>/paginas/registroUsuario.xhtml</to-view-id>
+            <from-outcome>gestionarProductos</from-outcome>
+            <to-view-id>/paginas/gestionarProductos.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
             <from-outcome>verVentas</from-outcome>
             <to-view-id>/paginas/verVentas.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/gestionarProductos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/paginas/bienvenidaAdmin.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/paginas/verVentas.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/paginas/bienvenidaAdmin.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -85,7 +101,7 @@
         <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>salir</from-outcome>
-            <to-view-id> login.xhtml</to-view-id>
+            <to-view-id>/login.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>

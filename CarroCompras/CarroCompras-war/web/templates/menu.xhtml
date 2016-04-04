@@ -13,7 +13,7 @@
         <h:form id="formMenu">
             <c:if test="#{indexMB.menuVisible}">
                 <p:toolbar>
-                    <!--Menú para 'Administrador'-->
+                    <!--Menú para 'Administrador'
                     <c:if test="#{indexMB.rol=='Admin'}">
                         <p:toolbarGroup align="left">
                             <p:menubar>
@@ -21,7 +21,7 @@
                                 <p:menuitem style="font-size: small" value="Ver Ventas" action="verVentas" icon="ui-icon-script" /> 
                             </p:menubar>
                         </p:toolbarGroup>
-                    </c:if>
+                    </c:if>-->
                     <p:toolbarGroup align="right">
                         <p:menubar>
                             <p:menuitem value="Salir" action="salir" actionListener="#{indexMB.salir()}" ajax="false" 

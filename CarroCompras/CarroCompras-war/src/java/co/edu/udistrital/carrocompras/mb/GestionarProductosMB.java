@@ -239,7 +239,7 @@ public class GestionarProductosMB {
             setNombreArchivo(rutaArchivos+fileName);
             mediumProductoModel.getRowData().setProdDescripcion(nombreArchivo);
             System.out.println("******************************: "+nombreArchivo);
-            FacesMessage message = new FacesMessage("La imagen", event.getFile().getFileName() + " fué cargada exitosamente.");
+            FacesMessage message = new FacesMessage("La imagen", fileName + " fué cargada exitosamente.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } catch (IOException e) {
             System.out.println(e.getMessage());
