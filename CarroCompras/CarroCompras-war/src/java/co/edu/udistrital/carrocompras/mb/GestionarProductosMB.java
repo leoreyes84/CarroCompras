@@ -10,6 +10,11 @@ import co.edu.udistrital.carro.compras.entity.Producto;
 import co.edu.udistrital.carro.compras.session.CategoriaFacadeLocal;
 import co.edu.udistrital.carro.compras.session.ProductoFacadeLocal;
 import co.edu.udistrital.carrocompras.util.ProductoDataModel;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import org.jboss.logging.Logger;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -49,6 +55,8 @@ public class GestionarProductosMB {
 
     private String nombreProducto;
     private String descripcion;
+    private String rutaArchivos = "C:\\TemporalPepito\\";
+    private String nombreArchivo;
     private Double precio;
     private int cantidad;
     private Integer idCategoria;
@@ -82,6 +90,7 @@ public class GestionarProductosMB {
             nuevoProducto.setProdDescripcion(this.descripcion);
             nuevoProducto.setProdPrecio(this.precio);
             nuevoProducto.setProdCantidad(this.cantidad);
+            nuevoProducto.setProdRutaImg(nombreArchivo);
             //Asociación con Categoría
             Categoria categoria = new Categoria();
             categoria.setCatId(idCategoria);
@@ -95,7 +104,6 @@ public class GestionarProductosMB {
             _logger.error(ex.getMessage(), ex);
         }
     }
-    
 
     /**
      * Modifica el producto
@@ -154,7 +162,7 @@ public class GestionarProductosMB {
             idCategoria = selectedProducto.getCatId().getCatId();
         }
     }
-    
+
     /**
      * Carga el objeto a eliminar en sesión
      */
@@ -194,11 +202,48 @@ public class GestionarProductosMB {
      * Limpia valores de ventana emergente
      */
     public void limpiarValores() {
-        this.idCategoria = null;
+        //this.idCategoria = null;
         this.nombreProducto = null;
         this.descripcion = null;
         this.precio = 0D;
         this.cantidad = 0;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
+        crearArchivoEnDisco(event.getFile().getFileName(), event.getFile().getInputstream(), event);
+    }
+
+    public void crearArchivoEnDisco(String fileName, InputStream in, FileUploadEvent event) {
+        try {
+            //String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")
+            
+            File file = new File(rutaArchivos);
+
+            if (!file.exists()) {
+                file.mkdir();
+            }
+            // write the inputStream to a FileOutputStream
+            OutputStream out = new FileOutputStream(new File(rutaArchivos + fileName));
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            in.close();
+            out.flush();
+            out.close();
+
+            System.out.println("Archivo creado!");
+            setNombreArchivo(rutaArchivos+fileName);
+            mediumProductoModel.getRowData().setProdDescripcion(nombreArchivo);
+            System.out.println("******************************: "+nombreArchivo);
+            FacesMessage message = new FacesMessage("La imagen", event.getFile().getFileName() + " fué cargada exitosamente.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     //////////////////////////////////////
@@ -268,4 +313,11 @@ public class GestionarProductosMB {
         this.idCategoria = idCategoria;
     }
 
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
+    }
 }

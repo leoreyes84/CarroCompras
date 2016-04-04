@@ -43,7 +43,7 @@ and open the template in the editor.
                                               filterBy="#{producto.catId.nombre}" sortBy="#{producto.catId.nombre}" 
                                               filterMatchMode="contains">  
                                         #{producto.catId.nombre}
-                                    </p:column> 
+                                    </p:column>                                    
 
                                     <p:column headerText="#{msg['gestion.productos.column.nombre']}"
                                               filterBy="#{producto.prodNombre}" sortBy="#{producto.prodNombre}" 
@@ -82,7 +82,7 @@ and open the template in the editor.
                     </p:panel>
                 </h:form>
                 <!-- NUEVO PRODUCTO -->
-                <h:form id="formNuevo">
+                <h:form enctype="multipart/form-data" id="formNuevo" >
                     <p:growl id="messagesNuevo" showDetail="false" autoUpdate="false"/>
                     <p:dialog id="dialogNuevo" header="Agregar Producto (*)Obligatorio" widgetVar="nuevoProducto"
                               visible="#{not empty facesContext.maximumSeverity}" closable="false">  
@@ -92,7 +92,7 @@ and open the template in the editor.
                                     <h:outputLabel value="Categoría: *" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu value="#{gestionarProductosMB.idCategoria}" label="Categoría" required="true">
+                                    <p:selectOneMenu value="#{gestionarProductosMB.idCategoria}"  required="true">
                                         <f:selectItem itemValue="" itemLabel="- Seleccione -"/>
                                         <f:selectItems value="#{gestionarProductosMB.listNombreCat}" />
                                     </p:selectOneMenu>
@@ -134,6 +134,14 @@ and open the template in the editor.
                                                  label="Precio"/>
                                 </p:column>
                             </p:row>
+                             <p:row>
+                                <p:column colspan="2">
+                                    <p:fileUpload fileUploadListener="#{gestionarProductosMB.handleFileUpload}" mode="advanced" label="Cargar Archivo"
+                                                  update="messagesFile, :formPrincipal" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                                    <p:growl id="messagesFile" showDetail="true" />
+                                </p:column>
+                            </p:row>
                             <p:row>
                                 <p:column colspan="2">
                                     <div align="center">
@@ -143,7 +151,7 @@ and open the template in the editor.
                                                          update="messagesNuevo,dialogNuevo,:formPrincipal:panelTabla" process="@this,panelGridNuevo" icon="ui-icon-check"/>  
                                     </div>
                                 </p:column>
-                            </p:row>
+                            </p:row>                           
                         </p:panelGrid>  
                     </p:dialog>
                 </h:form>

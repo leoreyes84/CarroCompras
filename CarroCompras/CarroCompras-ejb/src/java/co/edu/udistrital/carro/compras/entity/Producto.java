@@ -66,7 +66,10 @@ public class Producto implements Serializable {
     @ManyToOne(optional = false)
     private Categoria catId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodId")
-    private List<DetalleVenta> detalleVentaList;
+    private List<DetalleVenta> detalleVentaList;    
+    @Size(max = 255)
+    @Column(name = "prod_ruta_img")
+    private String prodRutaImg;
 
     public Producto() {
     }
@@ -137,6 +140,14 @@ public class Producto implements Serializable {
 
     public void setDetalleVentaList(List<DetalleVenta> detalleVentaList) {
         this.detalleVentaList = detalleVentaList;
+    }
+
+    public String getProdRutaImg() {
+        return prodRutaImg;
+    }
+
+    public void setProdRutaImg(String prodRutaImg) {
+        this.prodRutaImg = prodRutaImg;
     }
 
     @Override
