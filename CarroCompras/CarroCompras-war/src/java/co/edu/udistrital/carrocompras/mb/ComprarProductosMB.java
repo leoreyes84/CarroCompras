@@ -75,9 +75,9 @@ public class ComprarProductosMB implements Serializable {
         listaDetalleVenta = new ArrayList<>();
         listaProdExistentes = productoFacade.findAll();
         if (productosSelCompra != null && productosSelCompra.size() > 0) {
-            DetalleVenta detalleVentaTemp = new DetalleVenta();
-            for (Producto productoTemp : productosSelCompra) {
 
+            for (Producto productoTemp : productosSelCompra) {
+                DetalleVenta detalleVentaTemp = new DetalleVenta();
                 detalleVentaTemp.setProdId(productoTemp);
                 detalleVentaTemp.setVenFecha(new Date());
                 detalleVentaTemp.setVenValor(productoTemp.getProdPrecio());

@@ -21,8 +21,6 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="body">
                 <h:form id="resumenCompra">
-                    <p:outputLabel value="Resumen compra"/><p/>
-
                     <p:dataTable id="tablaResumenVenta" emptyMessage="No hay productos agregados en el carrito de compras" style="width: 700px" 
                                  var="resumenProdVendido" value="#{resumenCompraMB.listaDetalleVenta}" >
                         <f:facet name="header">
@@ -44,8 +42,13 @@ and open the template in the editor.
                             <h:outputText value="#{resumenProdVendido.venFecha}" > 
                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                             </h:outputText>
-                        </p:column> 
-                         <p:columnGroup type="footer">
+                        </p:column>
+                        <p:column headerText="Imágen">
+                            <div align="center">
+                                <p:graphicImage value="#{resumenProdVendido.prodId.prodRutaImg}" height="56px" width="100px"/>
+                            </div>
+                        </p:column>
+                        <p:columnGroup type="footer">
                             <p:row>
                                 <p:column colspan="2" style="text-align:right" footerText="Valor Total Pagado:" />
                                 <p:column footerText="$#{resumenCompraMB.valorTotalPago}" />
@@ -54,11 +57,10 @@ and open the template in the editor.
                         <f:facet name="footer" >
                             Cantidad de Artículos Comprados: #{resumenCompraMB.cantArticulosComprados}
                         </f:facet>
-                        
+
                     </p:dataTable>
                     <br />
                     <p:commandButton action="terminar" value="Terminar"/>
-                    <p:commandButton action="salir" value="Salir"/>
                 </h:form>
             </ui:define>
         </ui:composition>
