@@ -12,23 +12,16 @@
     <h:body>
         <h:form id="formMenu">
             <c:if test="#{indexMB.menuVisible}">
-                <p:toolbar>
-                    <!--Menú para 'Administrador'
+                <p:menubar>
                     <c:if test="#{indexMB.rol=='Admin'}">
-                        <p:toolbarGroup align="left">
-                            <p:menubar>
-                                <p:menuitem style="font-size: small" value="Gestionar Productos" action="gestionarProductos" icon="ui-icon-clipboard" /> 
-                                <p:menuitem style="font-size: small" value="Ver Ventas" action="verVentas" icon="ui-icon-script" /> 
-                            </p:menubar>
-                        </p:toolbarGroup>
-                    </c:if>-->
-                    <p:toolbarGroup align="right">
-                        <p:menubar>
-                            <p:menuitem value="Salir" action="salir" actionListener="#{indexMB.salir()}" ajax="false" 
-                                        icon="ui-icon-close" style="font-size: small"/>  
-                        </p:menubar>
-                    </p:toolbarGroup>
-                </p:toolbar>
+                        <p:menuitem style="font-size: small" value="Gestionar Productos" action="gestionarProductos" icon="ui-icon-clipboard" /> 
+                        <p:menuitem style="font-size: small" value="Ver Ventas" action="verVentas" icon="ui-icon-script" /> 
+                    </c:if>
+                    <f:facet name="options">
+                        <p:commandButton value="Salir" action="salir" actionListener="#{indexMB.salir()}" ajax="false" 
+                                         icon="ui-icon-close" style="font-size: small"/>
+                    </f:facet>
+                </p:menubar>
             </c:if>
         </h:form>
     </h:body>

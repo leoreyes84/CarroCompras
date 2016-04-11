@@ -80,7 +80,7 @@ and open the template in the editor.
 
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:commandButton action="volver" value="Volver"/>
+                            <p:commandButton action="volver" value="Volver" icon="ui-icon-circle-triangle-w"/>
                         </h:panelGroup>
                     </p:panel>
                 </h:form>
@@ -88,7 +88,7 @@ and open the template in the editor.
                 <h:form enctype="multipart/form-data" id="formNuevo" >
                     <p:growl id="messagesNuevo" showDetail="false" autoUpdate="false"/>
                     <p:dialog id="dialogNuevo" header="Agregar Producto (*)Obligatorio" widgetVar="nuevoProducto"
-                              visible="#{not empty facesContext.maximumSeverity}" closable="false">  
+                              visible="#{not empty facesContext.maximumSeverity}" closable="false" modal="true">  
                         <p:panelGrid id="panelGridNuevo">
                             <p:row>
                                 <p:column>
@@ -137,14 +137,14 @@ and open the template in the editor.
                                                  label="Precio"/>
                                 </p:column>
                             </p:row>
-                             <p:row>
+<!--                             <p:row>
                                 <p:column colspan="2">
                                     <p:fileUpload fileUploadListener="#{gestionarProductosMB.handleFileUpload}" mode="advanced" label="Cargar Archivo"
                                                   update="messagesFile, :formPrincipal" auto="true" sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                                     <p:growl id="messagesFile" showDetail="true" />
                                 </p:column>
-                            </p:row>
+                            </p:row>-->
                             <p:row>
                                 <p:column colspan="2">
                                     <div align="center">
